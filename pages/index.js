@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import Link from "next/link";
 
 const defaultEndpoint = "https://rickandmortyapi.com/api/character/";
 
+// pre-fecth data that rendes on the server
 export async function getServerSideProps() {
   const res = await fetch(defaultEndpoint);
   const data = await res.json();
@@ -147,10 +149,12 @@ export default function Home({ data }) {
             const { id, name, image } = result;
             return (
               <li className={styles.card} key={id}>
-                <a href="https://nextjs.org/docs">
-                  <h3>{name}</h3>
-                  <img src={image} alt={`Thumbnail image of ${name}`}></img>
-                </a>
+                <Link href="/character/[id]" as={`/character/${id}`}>
+                  <a>
+                    <h3>{name}</h3>
+                    <img src={image} alt={`Thumbnail image of ${name}`}></img>
+                  </a>
+                </Link>
               </li>
             );
           })}
@@ -161,12 +165,16 @@ export default function Home({ data }) {
 
       <footer className={styles.footer}>
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://github.com/simpja/rick-and-morty"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{" "}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          Made by&nbsp;<b>simpja</b>{" "}
+          <img
+            src="/GitHub-Mark-32px.png"
+            alt="Github Logo"
+            className={styles.logo}
+          />
         </a>
       </footer>
     </div>
