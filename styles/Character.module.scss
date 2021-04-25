@@ -1,3 +1,6 @@
+@import "mixins";
+$color-primary: #2ab3b88a;
+
 .container {
   min-height: 100vh;
   padding: 0 0.5rem;
@@ -23,21 +26,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.footer img {
-  margin-left: 0.5rem;
-}
+  img {
+    margin-left: 0.5rem;
+  }
 
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.title a {
-  color: #0070f3;
-  text-decoration: none;
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .title a:hover,
@@ -50,6 +48,11 @@
   margin: 0;
   line-height: 1.15;
   font-size: 4rem;
+
+  a {
+    color: $color-primary;
+    text-decoration: none;
+  }
 }
 
 .title,
@@ -60,20 +63,16 @@
 .profile {
   display: flex;
   margin-top: 2em;
-}
 
-@media (max-width: 600px) {
-  .profile {
+  @include desktop() {
     flex-direction: column;
   }
 }
 
 .profile_image {
   margin-right: 2em;
-}
 
-@media (max-width: 600px) {
-  .profile_image {
+  @include desktop() {
     max-width: 100%;
     margin: 0 auto;
   }
@@ -86,11 +85,4 @@
 
 .logo {
   height: 1em;
-}
-
-@media (max-width: 600px) {
-  .grid {
-    width: 100%;
-    flex-direction: column;
-  }
 }

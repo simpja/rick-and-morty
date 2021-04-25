@@ -1,5 +1,5 @@
 import Head from "next/head";
-import styles from "../../../styles/Character.module.css";
+import styles from "../../../styles/Character.module.scss";
 import Link from "next/link";
 
 const defaultEndpoint = "https://rickandmortyapi.com/api/character/";
