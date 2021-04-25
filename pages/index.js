@@ -65,7 +65,6 @@ export default function Home({ data }) {
       // we are on the inital page. Meaning our results state object can -
       // simply be set to the results array of the data we just fetched
       if (!nextData.info?.prev) {
-        console.log("Am i first page, or not first?");
         updateResults(nextData.results);
         return;
       }
@@ -98,6 +97,34 @@ export default function Home({ data }) {
     });
   }
 
+  function handleOnSubmitSearch(e) {
+    // Prevent the page from reloading
+    e.preventDefault();
+
+    // Set currentTarget to e.currentTarget (the form), or to an empty object if null
+    const { currentTarget = {} } = e;
+    // Make an Array, fields, from the elements of currentTarget (if not null)
+    // The elements of our form is the input and the button
+    const fields = Array.from(currentTarget?.elements);
+    // Fetch the element of our form that has a field.name === query (this will be the input field)
+    /* 
+        note on Array.find() 
+        The find() method returns the value of the first element in the provided array that -
+        satisfies the provided testing function. 
+        If no values satisfy the testing function, undefined is returned.
+    */
+    const fieldQuery = fields.find((field) => field.name === "query");
+
+    // now, we finally fetch our value from the input
+    const value = fieldQuery.value || "";
+    const endpoint = `https://rickandmortyapi.com/api/character/?name=${value}`;
+
+    // Again, updatePage will set off the useEffect that fetches new data and updates both results and page state objects
+    updatePage({
+      current: endpoint,
+    });
+  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -106,11 +133,14 @@ export default function Home({ data }) {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to the Rick and Morty character shoooow!
-        </h1>
+        <h1 className={styles.title}>Rick and Morty Character Show!</h1>
 
         <p className={styles.description}>You'll get the idea...</p>
+
+        <form className={styles.search} onSubmit={handleOnSubmitSearch}>
+          <input name="query" type="search" />
+          <button>Search</button>
+        </form>
 
         <ul className={styles.grid}>
           {results.map((result) => {
@@ -118,11 +148,7 @@ export default function Home({ data }) {
             return (
               <li className={styles.card} key={id}>
                 <a href="https://nextjs.org/docs">
-                  <h3>
-                    Character &rarr;
-                    <br />
-                    {name}
-                  </h3>
+                  <h3>{name}</h3>
                   <img src={image} alt={`Thumbnail image of ${name}`}></img>
                 </a>
               </li>
